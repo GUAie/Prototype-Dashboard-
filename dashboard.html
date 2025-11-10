@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Energy Saving Pro</title>
+    <link rel="stylesheet" href="dashboard.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Header -->
+        <header class="dashboard-header">
+            <div class="header-left">
+                <h1>Energy Saving Pro</h1>
+            </div>
+            <div class="header-right">
+                <div class="user-info">
+                    <span class="welcome">Welcome, <strong id="userName">Juan Dela Cruz</strong></span>
+                    <span class="location" id="userLocation">Metro Manila, Philippines</span>
+                </div>
+                <div class="inbox">
+                    <span class="inbox-count">4</span>
+                    <span class="inbox-label">Notifications</span>
+                    <!-- Unread badge will be added dynamically -->
+                </div>
+                <button class="btn btn-logout" onclick="logout()">Logout</button>
+            </div>
+        </header>
+
+        <!-- Navigation -->
+        <nav class="dashboard-nav">
+            <a href="#user-profile" class="nav-item">User Profile</a>
+            <a href="#appliance-management" class="nav-item">Appliance Management</a>
+            <a href="#data-visualization" class="nav-item">Data Analytics</a>
+            <a href="#carbon-calculator" class="nav-item">Carbon Calculator</a>
+            <a href="#cost-calculator" class="nav-item">Cost Calculator</a>
+            <a href="#goal-setting" class="nav-item">Goal Setting</a>
+            <a href="#notifications" class="nav-item">Notifications</a>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="dashboard-main">
+            <!-- Quick Stats -->
+            <section class="quick-stats">
+                <div class="stat-card">
+                    <div class="stat-icon">⚡</div>
+                    <div class="stat-info">
+                        <div class="stat-value">8.5 kWh</div>
+                        <div class="stat-label">Today's Usage</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">💰</div>
+                    <div class="stat-info">
+                        <div class="stat-value" id="currentCost">₱85.00</div>
+                        <div class="stat-label">Current Cost</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">🌿</div>
+                    <div class="stat-info">
+                        <div class="stat-value">4.3 kg</div>
+                        <div class="stat-label">CO₂ Saved</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">🎯</div>
+                    <div class="stat-info">
+                        <div class="stat-value">65%</div>
+                        <div class="stat-label">Goal Progress</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- User Profile & Settings Module -->
+            <section id="user-profile" class="module">
+                <h2>User Profile & Settings</h2>
+                <div class="module-content">
+                    <div class="profile-sections">
+                        <!-- Personal Information -->
+                        <div class="profile-section">
+                            <h3>Personal Information</h3>
+                            <form id="personalInfoForm">
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="fullName">Full Name</label>
+                                        <input type="text" id="fullName" placeholder="Enter your full name" value="Juan Dela Cruz">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="userEmail">Email Address</label>
+                                        <input type="email" id="userEmail" placeholder="Enter your email" value="juan.delacruz@example.com">
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="phoneNumber">Phone Number</label>
+                                        <input type="tel" id="phoneNumber" placeholder="Enter your phone number" value="+63 912 345 6789">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="householdSize">Household Size</label>
+                                        <input type="number" id="householdSize" placeholder="Number of people" value="4" min="1">
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Update Personal Info</button>
+                            </form>
+                        </div>
+
+                        <!-- Location & Tariff Settings -->
+                        <div class="profile-section">
+                            <h3>Location & Electricity Tariff</h3>
+                            <form id="locationTariffForm">
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="region">Region</label>
+                                        <input type="text" id="region" placeholder="Enter region" value="NCR">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="province">Province</label>
+                                        <input type="text" id="province" placeholder="Enter province" value="Metro Manila">
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="city">City/Municipality</label>
+                                        <input type="text" id="city" placeholder="Enter city" value="Quezon City">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="zipCode">ZIP Code</label>
+                                        <input type="text" id="zipCode" placeholder="Enter ZIP code" value="1100">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="electricityProvider">Electricity Provider</label>
+                                    <input type="text" id="electricityProvider" placeholder="Enter electricity provider:" value="Meralco">
+                                </div>
+                                <div class="form-group">
+                                    <label for="electricityTariff">Electricity Tariff Rate (₱/kWh)</label>
+                                    <div class="tariff-input-group">
+                                        <input type="number" id="electricityTariff" placeholder="11.00" value="11.00" step="0.01" min="0">
+                                        <span class="tariff-unit">₱/kWh</span>
+                                    </div>
+                                    <small class="help-text">Average PH rate: ₱8.00-₱15.00/kWh. This rate will be used for all cost calculations.</small>
+                                </div>
+                                <div class="form-group">
+                                    <label for="currency">Currency</label>
+                                    <select id="currency">
+                                        <option value="PHP" selected>Philippine Peso (₱)</option>
+                                        <option value="USD">US Dollar ($)</option>
+                                    </select>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Update Location & Tariff</button>
+                            </form>
+                        </div>
+
+                        <!-- Application Preferences -->
+                        <div class="profile-section">
+                            <h3>Application Preferences</h3>
+                            <form id="preferencesForm">
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="energyUnit">Energy Unit</label>
+                                        <select id="energyUnit">
+                                            <option value="kWh" selected>kWh</option>
+                                            <option value="MWh">MWh</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="carbonUnit">Carbon Emission Unit</label>
+                                        <select id="carbonUnit">
+                                            <option value="kg" selected>Kilograms (kg)</option>
+                                            <option value="tons">Tons</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="timeFormat">Time Format</label>
+                                        <select id="timeFormat">
+                                            <option value="12h">12-hour</option>
+                                            <option value="24h" selected>24-hour</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="dateFormat">Date Format</label>
+                                        <select id="dateFormat">
+                                            <option value="MM/DD/YYYY">MM/DD/YYYY</option>
+                                            <option value="DD/MM/YYYY" selected>DD/MM/YYYY</option>
+                                            <option value="YYYY-MM-DD">YYYY-MM-DD</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Save Preferences</button>
+                            </form>
+                        </div>
+
+                        <!-- Profile Summary -->
+                        <div class="profile-section">
+                            <h3>Profile Summary</h3>
+                            <div class="profile-summary">
+                                <div class="summary-item">
+                                    <span class="summary-label">Name:</span>
+                                    <span class="summary-value" id="summaryName">Juan Dela Cruz</span>
+                                </div>
+                                <div class="summary-item">
+                                    <span class="summary-label">Location:</span>
+                                    <span class="summary-value" id="summaryLocation">Quezon City, Metro Manila</span>
+                                </div>
+                                <div class="summary-item">
+                                    <span class="summary-label">Provider:</span>
+                                    <span class="summary-value" id="summaryProvider">Meralco</span>
+                                </div>
+                                <div class="summary-item">
+                                    <span class="summary-label">Tariff Rate:</span>
+                                    <span class="summary-value" id="summaryTariff">₱11.00/kWh</span>
+                                </div>
+                                <div class="summary-item">
+                                    <span class="summary-label">Household:</span>
+                                    <span class="summary-value" id="summaryHousehold">4 people</span>
+                                </div>
+                                <div class="summary-item">
+                                    <span class="summary-label">Member Since:</span>
+                                    <span class="summary-value" id="summaryJoinDate">January 2024</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Appliance Management Module -->
+            <section id="appliance-management" class="module">
+                <h2>Appliance Library & Management</h2>
+                <div class="module-content">
+                    <div class="appliance-form">
+                        <h3>Add New Appliance</h3>
+                        <form id="addApplianceForm">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="applianceName">Appliance Name</label>
+                                    <input type="text" id="applianceName" placeholder="e.g., Electric Fan, Refrigerator" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="wattage">Wattage (W)</label>
+                                    <input type="number" id="wattage" placeholder="e.g., 150" required>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="usageHours">Daily Usage (hours)</label>
+                                    <input type="number" id="usageHours" placeholder="e.g., 8" step="0.1" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="category">Category</label>
+                                    <select id="category" required>
+                                        <option value="">Select Category</option>
+                                        <option value="kitchen">Kitchen</option>
+                                        <option value="living-room">Living Room</option>
+                                        <option value="bedroom">Bedroom</option>
+                                        <option value="bathroom">Bathroom</option>
+                                        <option value="office">Office</option>
+                                        <option value="other">Other</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Add Appliance</button>
+                        </form>
+                    </div>
+                    <div class="appliance-list">
+                        <h3>Your Appliances</h3>
+                        <div id="appliancesContainer" class="appliances-grid">
+                            <!-- Appliances will be dynamically added here -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Data Visualization Module -->
+            <section id="data-visualization" class="module">
+                <h2>Data Visualization & Analytics</h2>
+                <div class="module-content">
+                    <div class="chart-container">
+                        <div class="chart-card">
+                            <h3>Weekly Energy Consumption</h3>
+                            <canvas id="weeklyChart"></canvas>
+                        </div>
+                        <div class="chart-card">
+                            <h3>Appliance Usage Breakdown</h3>
+                            <canvas id="usageChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Carbon Calculator Module -->
+            <section id="carbon-calculator" class="module">
+                <h2>Carbon Footprint Calculator</h2>
+                <div class="module-content">
+                    <div class="carbon-calc">
+                        <div class="calc-input">
+                            <label for="energyConsumption">Total Energy Consumption (kWh)</label>
+                            <input type="number" id="energyConsumption" placeholder="Enter kWh" value="8.5">
+                            <button onclick="calculateCarbon()" class="btn btn-primary">Calculate CO₂</button>
+                        </div>
+                        <div class="calc-result">
+                            <div class="carbon-result">
+                                <div class="result-value" id="carbonResult">0</div>
+                                <div class="result-label">kg CO₂ Emissions</div>
+                            </div>
+                            <div class="carbon-info">
+                                <p>Based on PH grid emission factor: 0.5 kg CO₂ per kWh</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Cost Calculator Module -->
+            <section id="cost-calculator" class="module">
+                <h2>Cost & Impact Calculator</h2>
+                <div class="module-content">
+                    <div class="cost-calc">
+                        <div class="calc-section">
+                            <h3>Real-time Bill Calculation</h3>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="meterReading">Current Meter Reading (kWh)</label>
+                                    <input type="number" id="meterReading" placeholder="Enter reading" value="2450">
+                                </div>
+                                <div class="form-group">
+                                    <label for="tariffRate">Tariff Rate (₱/kWh)</label>
+                                    <input type="number" id="tariffRate" placeholder="11.00" value="11.00" step="0.01">
+                                </div>
+                            </div>
+                            <button onclick="calculateBill()" class="btn btn-primary">Calculate Bill</button>
+                            <div class="bill-result">
+                                <div class="result-value" id="billResult">₱0.00</div>
+                                <div class="result-label">Estimated Bill</div>
+                            </div>
+                        </div>
+                        <div class="calc-section">
+                            <h3>What-if Scenarios</h3>
+                            <div class="form-group">
+                                <label for="scenarioAppliance">Select Appliance</label>
+                                <select id="scenarioAppliance">
+                                    <option value="">Select an appliance</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="scenarioHours">Usage Hours (per day)</label>
+                                <input type="number" id="scenarioHours" placeholder="Enter hours" value="8">
+                            </div>
+                            <button onclick="calculateScenario()" class="btn btn-secondary">Calculate Impact</button>
+                            <div class="scenario-result">
+                                <div class="result-item">
+                                    <span>Daily Cost:</span>
+                                    <span id="scenarioCost">₱0.00</span>
+                                </div>
+                                <div class="result-item">
+                                    <span>Monthly Cost:</span>
+                                    <span id="scenarioCostMonthly">₱0.00</span>
+                                </div>
+                                <div class="result-item">
+                                    <span>CO₂:</span>
+                                    <span id="scenarioCarbon">0 kg</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Goal Setting Module -->
+            <section id="goal-setting" class="module">
+                <h2>Goal Setting & Planning</h2>
+                <div class="module-content">
+                    <div class="goal-setup">
+                        <h3>Set New Goal</h3>
+                        <form id="goalForm">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="goalType">Goal Type</label>
+                                    <select id="goalType" required>
+                                        <option value="consumption">Energy Consumption</option>
+                                        <option value="cost">Electricity Cost</option>
+                                        <option value="carbon">Carbon Emissions</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="goalPeriod">Period</label>
+                                    <select id="goalPeriod" required>
+                                        <option value="weekly">Weekly</option>
+                                        <option value="monthly">Monthly</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="goalTarget">Target Value</label>
+                                <input type="number" id="goalTarget" placeholder="Enter target" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Set Goal</button>
+                        </form>
+                    </div>
+                    <div class="goal-progress">
+                        <h3>Current Goals</h3>
+                        <div id="goalsContainer">
+                            <!-- Goals will be dynamically added here -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Notifications Module -->
+            <section id="notifications" class="module">
+                <h2>Smart Notification System</h2>
+                <div class="module-content">
+                    <div class="notification-settings">
+                        <h3>Notification Preferences</h3>
+                        <div class="setting-item">
+                            <label class="switch">
+                                <input type="checkbox" id="budgetAlerts" checked>
+                                <span class="slider"></span>
+                            </label>
+                            <span>Budget Limit Alerts</span>
+                        </div>
+                        <div class="setting-item">
+                            <label class="switch">
+                                <input type="checkbox" id="usageSpikeAlerts" checked>
+                                <span class="slider"></span>
+                            </label>
+                            <span>Usage Spike Alerts</span>
+                        </div>
+                        <div class="setting-item">
+                            <label class="switch">
+                                <input type="checkbox" id="goalProgressAlerts">
+                                <span class="slider"></span>
+                            </label>
+                            <span>Goal Progress Updates</span>
+                        </div>
+                        <div class="setting-item">
+                            <label class="switch">
+                                <input type="checkbox" id="peakHoursAlerts" checked>
+                                <span class="slider"></span>
+                            </label>
+                            <span>Peak Hours Alerts</span>
+                        </div>
+                    </div>
+                    <div class="notification-test">
+                        <h3>Test Notifications</h3>
+                        <button onclick="testBudgetAlert()" class="btn btn-secondary">Test Budget Alert</button>
+                        <button onclick="testSpikeAlert()" class="btn btn-secondary">Test Spike Alert</button>
+                        <button onclick="testPeakHoursAlert()" class="btn btn-secondary">Test Peak Hours Alert</button>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Notification Modal -->
+    <div id="notificationModal" class="notification-modal">
+        <div class="notification-modal-content">
+            <div class="notification-modal-header">
+                <h3>Notifications</h3>
+                <div class="notification-actions">
+                    <button class="btn-mark-all-read" onclick="markAllAsRead()">Mark All as Read</button>
+                    <button class="btn-clear-all" onclick="clearAllNotifications()">Clear All</button>
+                    <span class="close-modal" onclick="closeNotificationModal()">&times;</span>
+                </div>
+            </div>
+            <div class="notification-modal-body">
+                <div id="notificationsList" class="notifications-list">
+                    <!-- Notifications will be dynamically added here -->
+                </div>
+                <div id="emptyNotifications" class="empty-notifications">
+                    <div class="empty-icon">🔔</div>
+                    <p>No notifications yet</p>
+                    <small>You're all caught up!</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dark Mode Toggle -->
+    <div class="dark-mode-toggle">
+        <label class="toggle-switch">
+            <input type="checkbox" id="darkModeToggle">
+            <span class="toggle-slider"></span>
+            <span class="toggle-label">Dark Mode</span>
+        </label>
+    </div>
+
+    <script src="dashboard.js"></script>
+</body>
+</html>
